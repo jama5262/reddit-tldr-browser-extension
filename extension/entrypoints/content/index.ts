@@ -1,5 +1,7 @@
-import HelloWorld from '../components/HelloWorld.vue';
+import { createPinia } from 'pinia'
 import {ContentScriptContext} from "wxt/utils/content-script-context";
+import RedditTldrContainer from '../../components/RedditTldrContainer.vue';
+import "~/assets/tailwind.css";
 
 const redditPostUrlPatterns = [
     'https://www.reddit.com/r/*/comments/*/*',
@@ -35,8 +37,8 @@ async function loadContentScript(ctx: ContentScriptContext) {
         append: 'first',
         onMount: (redditElement) => {
             let container = document.createElement("div");
-            container.style.backgroundColor = "white";
-            const app = createApp(HelloWorld);
+            const app = createApp(RedditTldrContainer);
+            app.use(createPinia());
             app.mount(container);
 
             redditElement.prepend(container);
